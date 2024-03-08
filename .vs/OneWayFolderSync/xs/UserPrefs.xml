@@ -1,0 +1,31 @@
+﻿<Properties StartupConfiguration="{1D76E827-6935-4190-8F21-C107F8ED87B2}|Default">
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.ItemProperties.OneWayFolderSync PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workbench ActiveDocument="OneWayFolderSync/Program.cs">
+    <Files>
+      <File FileName="OneWayFolderSync/Program.cs" Line="14" Column="1" />
+      <File FileName="OneWayFolderSync/Extensions/ServiceExtensions/ServiceExtensions.cs" Line="14" Column="3" />
+      <File FileName="OneWayFolderSync/Models/Request.cs" Line="12" Column="1" />
+      <File FileName="OneWayFolderSync/Services/SyncService.cs" Line="16" Column="31" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="OneWayFolderSync" expanded="True">
+            <Node name="OneWayFolderSync">
+              <Node name="Extensions" expanded="True">
+                <Node name="ServiceExtensions" expanded="True" />
+              </Node>
+              <Node name="Program.cs" selected="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+</Properties>
