@@ -5,8 +5,7 @@ namespace OneWayFolderSync.Services
 {
 	public interface ISyncService
 	{
-		public Request GetSynRequest();
-		public void CopyFolder(Request request);
+		public void RunSyncronization(Request request);
     }
 }
 

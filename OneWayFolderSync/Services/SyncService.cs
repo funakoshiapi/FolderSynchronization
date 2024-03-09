@@ -1,20 +1,62 @@
 ﻿using System;
 using Microsoft.Extensions.Logging;
 using OneWayFolderSync.Models;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace OneWayFolderSync.Services
 {
     public class SyncService : ISyncService
-	{
-		private ILogger _logger;
+    {
+        private ILogger _logger;
+ 
 
-		public SyncService(ILogger<SyncService> logger)
+        public SyncService(ILogger<SyncService> logger)
 		{
 			_logger = logger;
-			_logger.LogInformation("Constructor");
         }
 
-       public void CopyFolder(Request request)
+
+        public void RunSyncronization(Request request)
+        {
+            var directory = new DirectoryInfo(request.SourcePath);
+            var destinationDir = new DirectoryInfo(request.DestinationPath);
+
+            Delete(directory, destinationDir);
+            CopyFolder(request);
+
+
+        }
+
+        private void Delete(DirectoryInfo source, DirectoryInfo destination)
+        {
+            if (!source.Exists)
+            {
+                destination.Delete(true);
+                _logger.LogWarning($"Deleted - Directory: {destination.Name}");
+                return;
+            }
+
+            // Delete each existing file in destination directory not existing in the source directory.
+            foreach (FileInfo fi in destination.GetFiles())
+            {
+                var sourceFile = Path.Combine(source.FullName, fi.Name);
+                if (!File.Exists(sourceFile)) //Source file doesn't exist, delete destination file
+                {
+                    fi.Delete();
+                    _logger.LogWarning($"Deleted - File: {fi.Name}");
+                }
+            }
+
+            // Delete non existing files in each subdirectory using recursion.
+            foreach (DirectoryInfo destinationSubDir in destination.GetDirectories())
+            {
+                DirectoryInfo sourceSubDir = new DirectoryInfo(Path.Combine(source.FullName, destinationSubDir.Name));
+                Delete(sourceSubDir, destinationSubDir);
+            }
+        }
+
+
+        private void CopyFolder(Request request)
         {
             var directory = new DirectoryInfo(request.SourcePath);
             var destinationDir = request.DestinationPath;
@@ -35,6 +77,13 @@ namespace OneWayFolderSync.Services
                 FileInfo srcFile = new FileInfo(newPath);
                 FileInfo destFile = new FileInfo(request.DestinationPath + srcFile.FullName.Replace(request.SourcePath, ""));
 
+
+
+                if (srcFile.CreationTime == srcFile.LastAccessTime && !destFile.Exists)
+                {
+                    _logger.LogInformation($"Created File : {srcFile.Name} \n");
+                    
+                }
                 if (srcFile.LastWriteTime > destFile.LastWriteTime || !destFile.Exists )
                 {
 
@@ -44,33 +93,8 @@ namespace OneWayFolderSync.Services
                 
             }
         }
-        
-        public Request GetSynRequest()
-        {
-            Console.WriteLine("Please introduce the source folder path");
-			string source = Console.ReadLine();
 
-            Console.WriteLine("Please introduce the destination folder path");
-            string destination = Console.ReadLine();
 
-            Console.WriteLine("Please introduce the sycronization interval folder path");
-            string syncInterval = Console.ReadLine();
-
-            Console.WriteLine("Please introduce the log file path folder path");
-            string logFilePath = Console.ReadLine();
-
-			// perform checks to validate input 
-
-			var request = new Request()
-			{
-				SourcePath = source,
-				DestinationPath = destination,
-				SyncInterval = 0,
-				LogFilePath = logFilePath
-			};
-
-			return request;
-        }
     }
 }
 

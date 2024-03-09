@@ -3,6 +3,7 @@ using System.IO;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using OneWayFolderSync.Models;
 using OneWayFolderSync.Services;
 using Serilog;
 
@@ -10,12 +11,12 @@ namespace OneWayFolderSync.Extensions.ServiceExtensions
 {
     public static class ServiceExtensions
     {
-        public static IHost CreateApplicationHost()
+        public static IHost CreateApplicationHost(string logFilePath)
         {
             var builder = new ConfigurationBuilder();
             BuildConfig(builder);
 
-            ConfigureLogger();
+            ConfigureLogger(logFilePath);
 
             var host = Host.CreateDefaultBuilder()
               .ConfigureServices((context, services) =>
@@ -35,13 +36,11 @@ namespace OneWayFolderSync.Extensions.ServiceExtensions
               .AddEnvironmentVariables();
         }
 
-        private static void ConfigureLogger()
+        public static void ConfigureLogger(string logPath)
         {
            Log.Logger = new LoggerConfiguration()
-          .MinimumLevel.Debug()
-          .Enrich.FromLogContext()
           .WriteTo.Console() // Output the logs to the console
-                             //.WriteTo.File(path, rollingInterval: RollingInterval.Day)
+          .WriteTo.File(logPath)
           .CreateLogger();
         }
 

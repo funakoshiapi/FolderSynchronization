@@ -5,7 +5,7 @@ namespace OneWayFolderSync.Models
 	{
 		public string SourcePath { get; set; }
         public string DestinationPath { get; set; }
-        public decimal SyncInterval { get; set; }
+        public int SyncInterval { get; set; }
 		public string LogFilePath { get; set; }
 	}
 }

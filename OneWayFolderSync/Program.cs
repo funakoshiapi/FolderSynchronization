@@ -5,6 +5,7 @@ using System.IO;
 using OneWayFolderSync.Services;
 using OneWayFolderSync.Models;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using OneWayFolderSync.Extensions;
 
 namespace OneWayFolderSync
 {
@@ -13,80 +14,30 @@ namespace OneWayFolderSync
     {
         static void Main(string[] args)
         {
-            var host = ServiceExtensions.CreateApplicationHost();
+            // var request = PromptExtension.InputPrompt();
+
+            var request = new Request()
+            {
+                SourcePath = "/Users/funakoshisilva/Desktop/TestLab",
+                DestinationPath = "/Users/funakoshisilva/Desktop/TestLab1",
+                SyncInterval = 1,
+                LogFilePath = "/Users/funakoshisilva/Desktop/TestLab1/log.txt"
+            };
+
+            var host = ServiceExtensions.CreateApplicationHost(request.LogFilePath);
 
             Log.Information("FolderSync Application - Running");
 
             var syncService = host.Services.GetRequiredService<ISyncService>();
 
-            var request = syncService.GetSynRequest();
-
-            syncService.CopyFolder(request);
-
-
-            using var watcher = new FileSystemWatcher(request.SourcePath);
-
-            watcher.NotifyFilter = NotifyFilters.Attributes
-                                 | NotifyFilters.CreationTime
-                                 | NotifyFilters.DirectoryName
-                                 | NotifyFilters.FileName
-                                 | NotifyFilters.LastAccess
-                                 | NotifyFilters.LastWrite
-                                 | NotifyFilters.Security
-                                 | NotifyFilters.Size;
-
-            watcher.Changed += OnChanged;
-            watcher.Created += OnCreated;
-            watcher.Deleted += OnDeleted;
-            watcher.Renamed += OnRenamed;
-            watcher.Error += OnError;
-
-            watcher.Filter = "*.txt";
-            watcher.IncludeSubdirectories = true;
-            watcher.EnableRaisingEvents = true;
-
-            Console.WriteLine("Press enter to exit.");
-            Console.ReadLine();
-        }
-
-        private static void OnChanged(object sender, FileSystemEventArgs e)
-        {
-            if (e.ChangeType != WatcherChangeTypes.Changed)
+            while (true)
             {
-                return;
-            }
-            Console.WriteLine($"Changed: {e.FullPath}");
-        }
+                
+                syncService.RunSyncronization(request);
+                Thread.Sleep(request.SyncInterval);
 
-        private static void OnCreated(object sender, FileSystemEventArgs e)
-        {
-            string value = $"Created: {e.FullPath}";
-            Console.WriteLine(value);
-        }
-
-        private static void OnDeleted(object sender, FileSystemEventArgs e) =>
-            Console.WriteLine($"Deleted: {e.FullPath}");
-
-        private static void OnRenamed(object sender, RenamedEventArgs e)
-        {
-            Console.WriteLine($"Renamed:");
-            Console.WriteLine($"    Old: {e.OldFullPath}");
-            Console.WriteLine($"    New: {e.FullPath}");
-        }
-
-        private static void OnError(object sender, ErrorEventArgs e) =>
-            PrintException(e.GetException());
-
-        private static void PrintException(Exception? ex)
-        {
-            if (ex != null)
-            {
-                Console.WriteLine($"Message: {ex.Message}");
-                Console.WriteLine("Stacktrace:");
-                Console.WriteLine(ex.StackTrace);
-                Console.WriteLine();
-                PrintException(ex.InnerException);
             }
         }
+
     }
 }
