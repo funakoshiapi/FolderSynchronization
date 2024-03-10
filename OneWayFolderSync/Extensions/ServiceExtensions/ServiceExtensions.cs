@@ -39,8 +39,8 @@ namespace OneWayFolderSync.Extensions.ServiceExtensions
         public static void ConfigureLogger(string logPath)
         {
            Log.Logger = new LoggerConfiguration()
-          .WriteTo.Console() // Output the logs to the console
-          .WriteTo.File(logPath)
+          .WriteTo.Console()
+          .WriteTo.File($"{logPath}/Log.txt")
           .CreateLogger();
         }
 

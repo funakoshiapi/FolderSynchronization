@@ -1,10 +1,6 @@
-﻿using Serilog;
-using OneWayFolderSync.Extensions.ServiceExtensions;
+﻿using OneWayFolderSync.Extensions.ServiceExtensions;
 using Microsoft.Extensions.DependencyInjection;
-using System.IO;
 using OneWayFolderSync.Services;
-using OneWayFolderSync.Models;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 using OneWayFolderSync.Extensions;
 
 namespace OneWayFolderSync
@@ -14,30 +10,28 @@ namespace OneWayFolderSync
     {
         static void Main(string[] args)
         {
-            // var request = PromptExtension.InputPrompt();
-
-            var request = new Request()
+            try
             {
-                SourcePath = "/Users/funakoshisilva/Desktop/TestLab",
-                DestinationPath = "/Users/funakoshisilva/Desktop/TestLab1",
-                SyncInterval = 1,
-                LogFilePath = "/Users/funakoshisilva/Desktop/TestLab1/log.txt"
-            };
+                var request = PromptExtension.InputPrompt();
 
-            var host = ServiceExtensions.CreateApplicationHost(request.LogFilePath);
+                var host = ServiceExtensions.CreateApplicationHost(request.LogFilePath);
 
-            Log.Information("FolderSync Application - Running");
+                var syncService = host.Services.GetRequiredService<ISyncService>();
 
-            var syncService = host.Services.GetRequiredService<ISyncService>();
 
-            while (true)
-            {
-                
-                syncService.RunSyncronization(request);
-                Thread.Sleep(request.SyncInterval);
+               while (true)
+                {
+                    syncService.RunSyncronization(request);
+                    Thread.Sleep(request.SyncInterval);
+                } 
 
             }
-        }
+            catch (Exception e)
+            {
+                Console.WriteLine($"General exception: '{e}'");
+                Console.ReadLine();
+            }
 
+        }
     }
 }

@@ -1,27 +1,32 @@
 ﻿<Properties StartupConfiguration="{1D76E827-6935-4190-8F21-C107F8ED87B2}|Default">
-  <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
-  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints />
   <MonoDevelop.Ide.ItemProperties.OneWayFolderSync PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.ItemProperties.TestOneWayFolderSync FirstBuild="True" />
   <MultiItemStartupConfigurations />
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MonoDevelop.Ide.Workbench ActiveDocument="OneWayFolderSync/Program.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="OneWayFolderSync/Extensions/PromptExtension.cs">
     <Files>
-      <File FileName="OneWayFolderSync/Program.cs" Line="14" Column="1" />
-      <File FileName="OneWayFolderSync/Extensions/ServiceExtensions/ServiceExtensions.cs" Line="14" Column="3" />
-      <File FileName="OneWayFolderSync/Models/Request.cs" Line="12" Column="1" />
-      <File FileName="OneWayFolderSync/Services/SyncService.cs" Line="16" Column="31" />
+      <File FileName="OneWayFolderSync/Program.cs" Line="20" Column="1" />
+      <File FileName="OneWayFolderSync/Models/Request.cs" Line="4" Column="15" />
+      <File FileName="OneWayFolderSync/Extensions/PromptExtension.cs" Line="46" Column="66" />
+      <File FileName="OneWayFolderSync/Services/ISyncService.cs" Line="7" Column="3" />
+      <File FileName="OneWayFolderSync/Extensions/ServiceExtensions/ServiceExtensions.cs" Line="43" Column="32" />
+      <File FileName="OneWayFolderSync/Services/WatcherService.cs" Line="7" Column="4" />
+      <File FileName="OneWayFolderSync/Services/SyncService.cs" Line="48" Column="14" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
-          <Node name="OneWayFolderSync" expanded="True">
+          <Node name="OneWayFolderSync">
             <Node name="OneWayFolderSync">
-              <Node name="Extensions" expanded="True">
+              <Node name="Dependencies" expanded="True" />
+              <Node name="Extensions">
                 <Node name="ServiceExtensions" expanded="True" />
+                <Node name="PromptExtension.cs" selected="True" />
               </Node>
-              <Node name="Program.cs" selected="True" />
+              <Node name="Models" expanded="True" />
+              <Node name="Services" expanded="True" />
             </Node>
           </Node>
         </State>

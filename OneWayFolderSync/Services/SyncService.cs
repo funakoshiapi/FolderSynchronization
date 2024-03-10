@@ -1,7 +1,6 @@
-﻿using System;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using OneWayFolderSync.Models;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+
 
 namespace OneWayFolderSync.Services
 {
@@ -15,14 +14,17 @@ namespace OneWayFolderSync.Services
 			_logger = logger;
         }
 
-
         public void RunSyncronization(Request request)
         {
             var directory = new DirectoryInfo(request.SourcePath);
             var destinationDir = new DirectoryInfo(request.DestinationPath);
 
-            Delete(directory, destinationDir);
-            CopyFolder(request);
+            while (true)
+            {
+                Delete(directory, destinationDir);
+                CopyFolder(request);
+                Thread.Sleep(request.SyncInterval);
+            }
 
 
         }
@@ -77,18 +79,20 @@ namespace OneWayFolderSync.Services
                 FileInfo srcFile = new FileInfo(newPath);
                 FileInfo destFile = new FileInfo(request.DestinationPath + srcFile.FullName.Replace(request.SourcePath, ""));
 
-
-
                 if (srcFile.CreationTime == srcFile.LastAccessTime && !destFile.Exists)
                 {
                     _logger.LogInformation($"Created File : {srcFile.Name} \n");
                     
                 }
-                if (srcFile.LastWriteTime > destFile.LastWriteTime || !destFile.Exists )
+                
+                if (srcFile.LastWriteTime > destFile.LastWriteTime || !destFile.Exists)
                 {
-
                     File.Copy(srcFile.FullName, destFile.FullName, true);
-                    _logger.LogInformation($"Copied File : {destFile.Name} \n to directory {destFile.FullName}\n");
+
+                    if(destFile.Name != "Log.txt")
+                    {
+                        _logger.LogInformation($"Copied File : {destFile.Name} \n to directory {destFile.FullName}\n");
+                    }
                 }
                 
             }
