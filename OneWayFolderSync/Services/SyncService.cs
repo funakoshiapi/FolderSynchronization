@@ -44,38 +44,6 @@ namespace OneWayFolderSync.Services
             DeleteFilesSubdirectory(source, destination);
         }
 
-        /*
-                 private void Delete(DirectoryInfo source, DirectoryInfo destination)
-        {
-            if (!source.Exists)
-            {
-                Directory.Delete(destination.FullName, true);
-                _logger.LogWarning($"Deleted - Directory: {destination.Name}");
-                return;
-            }
-            // Delete files existing in destination folder that do not exist in source folder
-            // Existing file in destination directory gets deleted if not existing in the source directory
-            foreach (FileInfo fi in destination.GetFiles())
-            {
-                var sourceFile = Path.Combine(source.FullName, fi.Name);
-                // if Source file doesn't exist, delete destination file
-                if (!File.Exists(sourceFile))
-                {
-                    fi.Delete();
-                    _logger.LogWarning($"Deleted - File: {fi.Name}");
-                }
-            }
-
-            // Delete non existing files in each subdirectory using recursion.
-            foreach (DirectoryInfo destinationSubDir in destination.GetDirectories())
-            {
-                DirectoryInfo sourceSubDir = new DirectoryInfo(Path.Combine(source.FullName, destinationSubDir.Name));
-                Delete(sourceSubDir, destinationSubDir);
-            }
-           
-        }
-       */
-
         public void DeleteDirectory(DirectoryInfo destination)
         {
                 Directory.Delete(destination.FullName, true);
