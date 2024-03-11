@@ -23,10 +23,10 @@ public class TestSyncService
 
         host = ConfigureServices.CreateApplicationHost();
 
-        // Plese use your own local directory path
+        // Plese use your own local directory path 
 
-        source = "/Users/funakoshisilva/Desktop/Test/TestLab";
-        destination = "/Users/funakoshisilva/Desktop/Test/TestLab1";
+        source = "/Users/yourOwnUser/Desktop/Test/TestLab";
+        destination = "/Users/yourOwnUser/Desktop/Test/TestLab1";
 
     }
     
@@ -141,7 +141,7 @@ public class TestSyncService
         var destinationFolderCount = Directory.GetDirectories(destinationInfo.FullName, "*", SearchOption.AllDirectories).Count();
 
         Directory.Delete(sourcePath, true);
-        Directory.Delete(destinationPath, true);
+        Directory.Delete(destination, true);
 
         Assert.Equal(sourceFolderCount, destinationFolderCount);
     }

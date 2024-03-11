@@ -4,8 +4,15 @@ using OneWayFolderSync.Models;
 
 namespace OneWayFolderSync.Extensions
 {
+    /// <summary>
+    /// This class promts the user to input a request order, that will be used by the SyncService.
+    /// </summary>
 	public static class PromptExtension
 	{
+        /// <summary>
+        /// Input prompt
+        /// </summary>
+        /// <returns>Returns a request object</returns>
 		public static Request InputPrompt()
 		{
             Console.WriteLine("Please introduce the source folder path:");
@@ -36,6 +43,10 @@ namespace OneWayFolderSync.Extensions
             return request;
         }
 
+        /// <summary>
+        /// Gets path and perform validation
+        /// </summary>
+        /// <returns>returns a string that represents a path</returns>
         private static string GetPath()
         {
             string source = Console.ReadLine();
@@ -53,6 +64,10 @@ namespace OneWayFolderSync.Extensions
             return source;
         }
 
+        /// <summary>
+        /// Gets sync interval and performs validation
+        /// </summary>
+        /// <returns>return an int representing a millisecond interval</returns>
         private static int GetSyncInterval()
         {
             int interval = 1;

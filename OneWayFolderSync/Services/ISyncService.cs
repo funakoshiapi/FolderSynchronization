@@ -3,11 +3,14 @@ using OneWayFolderSync.Models;
 
 namespace OneWayFolderSync.Services
 {
+    /// <summary>
+    /// SyncService interface
+    /// </summary>
 	public interface ISyncService
 	{
-		public void RunSyncronization(Request request);
-		public void CopyAllDirectories(Request request);
-        public void CopyFiles(Request request);
+		public  Task RunSyncronization(Request request);
+		public Task CopyAllDirectories(Request request);
+        public Task CopyFiles(Request request);
         public void DeleteFilesSubdirectory(DirectoryInfo source, DirectoryInfo destination);
         public void DeleteFiles(DirectoryInfo source, DirectoryInfo destination);
     }

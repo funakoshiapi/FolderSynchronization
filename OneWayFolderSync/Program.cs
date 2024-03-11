@@ -2,13 +2,15 @@
 using Microsoft.Extensions.DependencyInjection;
 using OneWayFolderSync.Services;
 using OneWayFolderSync.Extensions;
+using System.IO;
+using Serilog;
 
 namespace OneWayFolderSync
 {
 
     class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             try
             {
@@ -17,13 +19,15 @@ namespace OneWayFolderSync
                 var host = ServiceExtensions.CreateApplicationHost(request.LogFilePath);
 
                 var syncService = host.Services.GetRequiredService<ISyncService>();
+     
+                
 
-
-               while (true)
+                while (true)
                 {
-                    syncService.RunSyncronization(request);
+                    await syncService.RunSyncronization(request);
                     Thread.Sleep(request.SyncInterval);
-                } 
+                    
+                }
 
             }
             catch (Exception e)
